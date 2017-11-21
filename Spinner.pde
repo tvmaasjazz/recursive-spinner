@@ -12,10 +12,25 @@ class Spinner {
   }
 
   void display() {
-    for (int i = 0; i < sections; i++) {
-      if (i % 2 == 0) fill(0);
-      else fill(255);
-      arc(x, y, radius, radius, 2 * PI * (i/sections), 2 * PI * ((i + 1)/sections));
+    float tempSpinRate = spinRate;
+    float tempRadius = radius;
+
+    while (tempRadius > 50) {
+      float spinPosition = millis() * tempSpinRate;
+
+      for (int i = 0; i < sections; i++) {
+        if (i % 2 == 0) fill(0);
+        else fill(255);
+        arc(x, y, tempRadius, tempRadius,
+          2 * PI * (i/sections) + spinPosition,
+          2 * PI * ((i + 1)/sections) + spinPosition);
+      }
+
+      tempRadius *= 0.75;
+      tempSpinRate *= 1.3;
     }
   }
 }
+
+// go down in size while radius greater than ___
+// only difference with smaller one is radius and each one faster spinRate
