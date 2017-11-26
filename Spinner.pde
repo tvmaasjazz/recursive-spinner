@@ -15,7 +15,7 @@ class Spinner {
     float tempSpinRate = spinRate;
     float tempRadius = radius;
 
-    while (tempRadius > 50) {
+    while (tempRadius > 10) {
       float spinPosition = millis() * tempSpinRate;
 
       for (int i = 0; i < sections; i++) {
