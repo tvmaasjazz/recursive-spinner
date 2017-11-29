@@ -21,8 +21,8 @@ class Spinner {
       float spinPosition = millis() * tempSpinRate;
 
       for (int i = 0; i < sections; i++) {
-        if (i % 2 == 0) fill(0, 50);
-        else fill(255, 50);
+        if (i % 2 == 0) fill(255, 5);
+        else fill(70, 130, 255, 50);
         arc(x, y, tempRadius, tempRadius,
           2 * PI * (i/sections) + spinPosition,
           2 * PI * ((i + 1)/sections) + spinPosition);
