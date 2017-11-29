@@ -1,28 +1,34 @@
-Spinner spinner;
-
 void setup() {
   size(displayWidth, displayHeight);
-
-  spinner = new Spinner(width/2, height/2, 400, 1, 10, 0.00005);
+  noCursor();
 }
 
 void draw() {
-  background(255);
+  background(0);
 
-  // generate an array of all of them
-  createSpinner(width/2, height/2, 600, 0.00005);
+  // create spinners array and add to it recursively
+  Spinner[] spinners = {};
+  spinners = (Spinner[]) concat(spinners, createSpinner(width/2, height/2, 400, 0.00005, spinners));
 
-  // loop through and display them
+  // loop through to display them
+  for(int i = 0; i < spinners.length; i++) {
+    spinners[i].display();
+  }
 }
 
-void createSpinner(float x, float y, float radius, float spinRate) {
-  Spinner s = new Spinner(x, y, radius, 1, 10, spinRate);
-  s.display();
+Spinner[] createSpinner(float x, float y, float radius, float spinRate, Spinner[] spinners) {
+  // add new spinner
+  Spinner newSpinner = new Spinner(x, y, radius, 1, 10, spinRate);
+  spinners = (Spinner[]) append(spinners, newSpinner);
 
-  if (radius > 200) {
-    createSpinner(x + radius / 2, y, radius / 2, spinRate * 3);
-    createSpinner(x, y + radius / 2, radius / 2, spinRate * 3);
-    createSpinner(x - radius / 2, y, radius / 2, spinRate * 3);
-    createSpinner(x, y - radius / 2, radius / 2, spinRate * 3);
+  // recurse through all four sides and concat them to the spinner array  
+  if (radius > 20) {
+    spinners = (Spinner[]) concat(concat(concat(
+      concat(createSpinner(x + radius / 2, y, radius / 2, spinRate * 3, spinners), spinners),
+      concat(createSpinner(x, y + radius / 2, radius / 2, spinRate * 3, spinners), spinners)),
+      concat(createSpinner(x - radius / 2, y, radius / 2, spinRate * 3, spinners), spinners)),
+      concat(createSpinner(x, y - radius / 2, radius / 2, spinRate * 3, spinners), spinners));
   }
+
+  return spinners;
 }
